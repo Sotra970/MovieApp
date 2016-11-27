@@ -3,6 +3,7 @@ package com.movieapp;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.activeandroid.ActiveAndroid;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -27,6 +28,7 @@ public class SingleTone extends Application {
     public void onCreate() {
         super.onCreate();
         mInstance = this;
+        ActiveAndroid.initialize(this);
     }
 
     public <T> void addToRequestQueue(Request<T> req, String tag) {

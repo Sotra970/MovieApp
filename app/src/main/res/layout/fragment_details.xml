@@ -74,12 +74,26 @@
                         />
 
                 </android.support.v7.widget.CardView>
+
+
+
+                    <com.movieapp.ExpandableHeightListView
+                        android:id="@+id/trailers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <com.movieapp.ExpandableHeightListView
+                        android:id="@+id/reviews"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
 
         </android.support.v7.widget.CardView>
     </ScrollView>
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fav"
         android:src="@drawable/ic_favorite_border_white_24dp"
         app:fabSize="normal"
         android:layout_marginRight="24dp"

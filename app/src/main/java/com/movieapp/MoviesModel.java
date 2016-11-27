@@ -6,10 +6,18 @@ import java.io.Serializable;
  * Created by sotra on 10/21/2016.
  */
 public class MoviesModel implements Serializable {
-    String name , img , rate ,date , details,cover;
+    String name , img , rate ,date , details,cover , id ;
 
     public String getCover() {
         return cover;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setCover(String cover) {

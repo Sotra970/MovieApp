@@ -26,6 +26,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -39,6 +40,12 @@ public class GridFragment extends Fragment {
     MoviesAdapter moviesAdapter ;
     GridView gridView ;
     String pref = "popular";
+    OnMoviesGridClicked onMoviesGridClicked ;
+
+    public void setOnMoviesGridClicked(OnMoviesGridClicked onMoviesGridClicked) {
+        this.onMoviesGridClicked = onMoviesGridClicked;
+    }
+
     public GridFragment() {
         // Required empty public constructor
 
@@ -58,8 +65,7 @@ public class GridFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MoviesModel current = (MoviesModel) moviesAdapter.getItem(i);
-                startActivity(new Intent(getContext(),DetailsActivity.class).putExtra("feed",current));
+                    onMoviesGridClicked.diplayDetails((MoviesModel)moviesAdapter.getItem(i));
 
             }
         });
@@ -84,11 +90,12 @@ public class GridFragment extends Fragment {
                       feed.setDate(currentFeed.getString("release_date"));
                       feed.setDetails(currentFeed.getString("overview"));
                       feed.setCover(currentFeed.getString("backdrop_path"));
+                      feed.setId(currentFeed.getString("id"));
 
                       movies.add(feed);
                   }
                     moviesAdapter.notifyDataSetChanged();
-
+                    onMoviesGridClicked.onLoad( movies.get(0));
 
                 }catch (Exception e){
                     Log.e("response error ",e.toString());
@@ -125,7 +132,33 @@ public class GridFragment extends Fragment {
                 movies.clear();
                 get_data();
                 break;
+
+            case  R.id.favourites:
+                DatabaseHandler databaseHandler = new DatabaseHandler();
+               parseData(databaseHandler.data());
+
+                break;
         }
         return true;
+    }
+
+    private void parseData(List<DatabaseHandler> data) {
+        movies.clear();
+        for(int i =0 ; i<data.size() ; i++){
+            MoviesModel moviesModel = new MoviesModel();
+            moviesModel.setId(data.get(i).id);
+            moviesModel.setDate(data.get(i).date);
+            moviesModel.setDetails(data.get(i).details);
+            moviesModel.setName(data.get(i).name);
+            moviesModel.setCover(data.get(i).cover);
+            moviesModel.setImg(data.get(i).img);
+            moviesModel.setRate(data.get(i).rate);
+            movies.add(moviesModel);
+            Log.e("movies", moviesModel.getDate()+ "");
+            Log.e("movies", data.get(i).date+ "");
+        }
+                 moviesAdapter.notifyDataSetChanged();
+        try{ onMoviesGridClicked.onLoad(movies.get(0));}catch (Exception e){}
+
     }
 }
