@@ -10,10 +10,6 @@ import com.android.volley.toolbox.Volley;
 
 
 
-/**
- * Created by paulodichone on 3/14/15.
- */
-
 public class SingleTone extends Application {
 
     public static final String TAG = SingleTone.class.getSimpleName();
